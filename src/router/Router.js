@@ -8,6 +8,9 @@ import SignUp from '../screen/auth/SignUp';
 import SignIn from '../screen/auth/SignIn';
 import Home from '../screen/auth/Home';
 // import Ex from '../screen/auth/Ex';
+import DrawerNavigation from './DrawerNavigation';
+import Crops from '../screen/auth/crops/Crops';
+import DetailsScreen from '../screen/auth/crops/DetailsScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -21,7 +24,9 @@ const Router = () => {
         <Stack.Screen options={{headerShown:false}} name="SignUp" component={SignUp} />
         <Stack.Screen options={{headerShown:false}} name="SignIn" component={SignIn} />
         <Stack.Screen options={{headerShown:false}} name="Home" component={Home} />
-        {/* <Stack.Screen options={{headerShown:false}} name="Ex" component={Ex} /> */}
+        <Stack.Screen options={{headerShown:false}} name="DrawerNavigation" component={DrawerNavigation} />
+        <Stack.Screen options={{headerShown:false}} name="Crops" component={Crops} />
+        <Stack.Screen options={{headerShown:false}} name="DetailsScreen" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
