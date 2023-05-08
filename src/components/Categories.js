@@ -8,6 +8,11 @@ const categories = [
         id: '2',
         name: 'Vegetables',
         image: require('../assets/catergories/vegetables.jpg')
+    },
+    {
+        id: '3',
+        name: 'Paddies',
+        image: require('../assets/catergories/paddies.jpg')
     }
 ];
 

@@ -9,6 +9,7 @@ import {
   Image,
   FlatList,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import COLORS from '../../../components/Colors';
@@ -16,24 +17,30 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import categories from '../../../components/Categories';
 import fruits from '../../../components/Fruits';
-import { useNavigation } from '@react-navigation/native';
+import vegetables from '../../../components/Vegetables';
+import paddies from '../../../components/Paddies';
+import {useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('screen');
 const cardWidth = width / 2 - 20;
 
 const Crops = () => {
   const navigation = useNavigation();
-  
+
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [data, setData] = useState([]);
 
   const CategoryList = () => {
     return (
-      <View style={styles.categoriesListContainer}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.categoriesListContainer}>
         {categories.map((category, index) => (
           <TouchableOpacity
             key={category.id}
             activeOpacity={0.8}
-            onPress={() => setSelectedCategoryIndex(index)}>
+            onPress={() => Select(index)}>
             <View
               style={[
                 styles.categoryBtn,
@@ -70,26 +77,26 @@ const Crops = () => {
             </View>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     );
   };
 
-  const Card = ({fruit}) => {
+  const Card = ({crop}) => {
     return (
       <View style={styles.card}>
         <View style={{alignItems: 'center', top: -10}}>
-          <Image source={fruit.image} style={{height: 120, width: 120}} />
+          <Image source={crop.image} style={{height: 120, width: 120}} />
         </View>
         <View style={{marginHorizontal: 20}}>
           <Text style={{fontSize: 16, fontWeight: 'bold', color: COLORS.dark}}>
-            {fruit.name}
+            {crop.name}
           </Text>
-          <Text style={{fontSize: 12, color: COLORS.grey, marginTop: 2}}>
-            {fruit.botName}
+          <Text style={{fontSize: 11, color: COLORS.grey, marginTop: 2}}>
+            {crop.botName}
           </Text>
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('DetailsScreen', fruit)}
+          onPress={() => navigation.navigate('DetailsScreen', crop)}
           style={{
             marginTop: 10,
             marginHorizontal: 10,
@@ -97,16 +104,30 @@ const Crops = () => {
             justifyContent: 'flex-end',
           }}>
           <View style={styles.addToCardBtn}>
-            <Icon name='ios-arrow-forward' size={20} color={COLORS.white} />
+            <Icon name="ios-arrow-forward" size={20} color={COLORS.white} />
           </View>
         </TouchableOpacity>
       </View>
     );
   };
 
+  const Select = index => {
+    setSelectedCategoryIndex(index);
+    if (index == 0) {
+      console.log('fruits', fruits);
+      setData(fruits);
+    } else if (index == 1) {
+      console.log('veg', vegetables);
+      setData(vegetables);
+    } else {
+      console.log('paddies', paddies);
+      setData(paddies);
+    }
+  };
+
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFF'}}>
-      <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+      <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
 
       <View style={styles.header}>
         <View>
@@ -123,7 +144,9 @@ const Crops = () => {
             Crops Details
           </Text>
         </View>
-        <TouchableOpacity onPress={() => {}} style={{marginTop: 15}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Store')}
+          style={{marginTop: 15}}>
           <MaterialIcons name="shopping-cart" size={28} color={COLORS.dark} />
         </TouchableOpacity>
       </View>
@@ -150,8 +173,8 @@ const Crops = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        data={fruits}
-        renderItem={({item}) => <Card fruit={item} />}
+        data={data}
+        renderItem={({item}) => <Card crop={item} />}
       />
     </SafeAreaView>
   );
@@ -183,11 +206,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   categoriesListContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginBottom: 20,
-    justifyContent: 'space-between',
-    width: '85%',
+    // flexDirection: 'row',
+    // marginTop: 30,
+    // marginBottom: 5,
+    // justifyContent: 'space-between',
+    // width: '85%',
+    paddingVertical: 30,
+    alignItems: 'center',
+    paddingHorizontal: 15,
   },
   categoryBtn: {
     height: 45,
@@ -211,7 +237,7 @@ const styles = StyleSheet.create({
     width: cardWidth,
     marginHorizontal: 10,
     marginBottom: 15,
-    marginTop: 50,
+    marginTop: 35,
     borderRadius: 15,
     elevation: 13,
     backgroundColor: COLORS.white,
