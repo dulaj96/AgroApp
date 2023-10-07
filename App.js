@@ -1,13 +1,18 @@
 import React from 'react';
 
 import Router from './src/router/Router';
-import Crops from './src/screen/auth/crops/Crops';
-import DetailsScreen from './src/screen/auth/crops/DetailsScreen';
-import BottomNavigator from './src/router/BottomNavigator';
-import Weather from './src/screen/auth/weather/Weather';
+import {persistor, store} from './src/store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App = () => {
-  return <Router />;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router />
+      </PersistGate>
+    </Provider>
+  );
 };
 
 export default App;
