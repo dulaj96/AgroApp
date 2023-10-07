@@ -1,5 +1,5 @@
-import { 
-    View, 
+import {
+    View,
     Text,
 } from 'react-native';
 import React from 'react';
@@ -14,8 +14,21 @@ import DetailsScreen from '../screen/auth/crops/DetailsScreen';
 import BottomNavigator from './BottomNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
 
 const Stack = createNativeStackNavigator();
+
+GoogleSignin.configure({
+    scopes: [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+    ],
+    webClientId:
+        '242008651431-id5j6t0bov2v1hh0p5op77jkn4m42j28.apps.googleusercontent.com',
+    // 148267645714-aantr2crekp5pjokud80s426fb7lb7sg.apps.googleusercontent.com
+    iosClientId:
+        '14721902519-nknj9kivj4c5vf5qq1gc3sb97fchsm6g.apps.googleusercontent.com',
+});
 
 const Router = () => {
   return (

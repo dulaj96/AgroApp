@@ -13,6 +13,7 @@ import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import {GoogleSignin, GoogleSigninButton} from "@react-native-google-signin/google-signin";
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -54,15 +55,37 @@ const SignIn = () => {
     });
   };
 
+  const onGoogleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn({});
+      const {accessToken} = await GoogleSignin.getTokens();
+      const {
+        user: {email, givenName, familyName, photo},
+      } = userInfo;
+
+      const userFullName = `${givenName} ${familyName}`;
+      console.log('email', email, givenName, familyName, photo, accessToken);
+    } catch (error) {
+      // eslint-disable-next-line no-undef
+      // toast?.show('Something went wrong. Please try again!', {
+      //   type: 'normal',
+      //   placement: 'bottom',
+      //   duration: 4000,
+      // });
+      console.log(error);
+      // throw error;
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle='light-content' />
       <View style={styles.header}>
         <Text style={styles.text_header}>Welcome!</Text>
       </View>
-
-      <Animatable.View 
-        animation="fadeInUpBig" 
+      <Animatable.View
+        animation="fadeInUpBig"
         style={styles.footer}
       >
         <Text style={styles.text_footer}>Email</Text>
@@ -131,6 +154,7 @@ const SignIn = () => {
               Sign Up
             </Text>
           </TouchableOpacity>
+          <GoogleSigninButton onPress={onGoogleLogin} />
         </View>
       </Animatable.View>
     </View>
