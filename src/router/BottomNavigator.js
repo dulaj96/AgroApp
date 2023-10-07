@@ -19,10 +19,11 @@ const BottomNavigator = () => {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          height: 55,
-          borderTopWidth: 0,
+          height: 48,
+          borderTopWidth: 1,
           elevation: 0,
           backgroundColor: COLORS.white,
+          borderTopColor: COLORS.primary
         },
         tabBarShowLabel: false,
         headerShown: false,
@@ -32,7 +33,7 @@ const BottomNavigator = () => {
         name="Crops"
         component={Crops}
         options={{
-          tabBarIcon: ({color}) => <FontAwesome name="pagelines" size={28} color={color} />,
+          tabBarIcon: ({color}) => <FontAwesome name="pagelines" size={23} color={color} />,
         }}
       />
       <Tab.Screen
@@ -40,7 +41,7 @@ const BottomNavigator = () => {
         component={Weather}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="rainy" size={28} color={color} />
+            <Icon name="rainy" size={23} color={color} />
           ),
         }}
       />
@@ -62,7 +63,7 @@ const BottomNavigator = () => {
                 top: -20,
                 elevation: 5
               }}>
-              <Icon name="search" size={28} color={color} />
+              <Icon name="search" size={23} color={color} />
             </View>
           ),
         }}
@@ -72,7 +73,7 @@ const BottomNavigator = () => {
         component={Store}
         options={{
           tabBarIcon: ({color}) => (
-            <MaterialIcons name="shopping-cart" size={28} color={color} />
+            <MaterialIcons name="shopping-cart" size={23} color={color} />
           ),
         }}
       />
@@ -80,7 +81,7 @@ const BottomNavigator = () => {
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({color}) => <Icon name="person" size={28} color={color} />,
+          tabBarIcon: ({color}) => <Icon name="person" size={23} color={color} />,
         }}
       />
     </Tab.Navigator>
