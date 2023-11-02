@@ -20,66 +20,17 @@ import fruits from '../../../components/Fruits';
 import vegetables from '../../../components/Vegetables';
 import paddies from '../../../components/Paddies';
 import {useNavigation} from '@react-navigation/native';
+import {useGetCategoriesQuery} from '../../../store/services/BackEndService';
+import CategoryList from './components/CategoryList';
 
 const {width} = Dimensions.get('screen');
 const cardWidth = width / 2 - 20;
 
 const Crops = () => {
   const navigation = useNavigation();
-
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [data, setData] = useState([]);
 
-  const CategoryList = () => {
-    return (
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.categoriesListContainer}>
-        {categories.map((category, index) => (
-          <TouchableOpacity
-            key={category.id}
-            activeOpacity={0.8}
-            onPress={() => Select(index)}>
-            <View
-              style={[
-                styles.categoryBtn,
-                {
-                  backgroundColor:
-                    selectedCategoryIndex === index
-                      ? COLORS.primary
-                      : COLORS.secondary,
-                },
-              ]}>
-              <View style={styles.categoryBtnImg}>
-                <Image
-                  source={category.image}
-                  style={{
-                    height: 35,
-                    width: 35,
-                    resizeMode: 'cover',
-                    borderRadius: 30,
-                  }}
-                />
-              </View>
-              <Text
-                style={{
-                  fontSizE: 15,
-                  fontWeight: 'bold',
-                  marginLeft: 10,
-                  color:
-                    selectedCategoryIndex === index
-                      ? COLORS.white
-                      : COLORS.primary,
-                }}>
-                {category.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    );
-  };
+  const {data: categoriesData, isLoading} = useGetCategoriesQuery();
 
   const Card = ({crop}) => {
     return (
@@ -109,20 +60,6 @@ const Crops = () => {
         </TouchableOpacity>
       </View>
     );
-  };
-
-  const Select = index => {
-    setSelectedCategoryIndex(index);
-    if (index == 0) {
-      console.log('fruits', fruits);
-      setData(fruits);
-    } else if (index == 1) {
-      console.log('veg', vegetables);
-      setData(vegetables);
-    } else {
-      console.log('paddies', paddies);
-      setData(paddies);
-    }
   };
 
   return (
@@ -167,7 +104,7 @@ const Crops = () => {
       </View>
 
       <View style={{alignItems: 'center'}}>
-        <CategoryList />
+        <CategoryList data={categoriesData} onSelect={setData} />
       </View>
 
       <FlatList
